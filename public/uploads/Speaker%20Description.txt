@@ -1,0 +1,19 @@
+Speaker is a 4-channel talker looper for constructing the future. Speaker is the key instrument in the futuristic terminal-core movement. Speaker is also great fun for little ones.
+
+Features:
+- Hot keys trigger voices and toggle looping
+- 23 hand crafted robots
+- 23 voices
+- Adjustable 
+- Saves settings between sessions
+
+"I am sitting in a room different from the one you are in now. I am recording the sound of my speaking voice and I am going to play it back into the room again and again until the resonant frequencies of the room reinforce themselves so that any semblance of my speech, with perhaps the exception of rhythm, is destroyed. What you will hear, then, are the natural resonant frequencies of the room articulated by speech. I regard this activity not so much as a demonstration of a physical fact, but more as a way to smooth out any irregularities my speech might have."
+- Alvin Lucier, 1969
+
+TAGS: speech, synthesizer, electronic music, concrete, looper, talker, robots, noise
+
+151
+219
+4372
+
+petersugihara89
