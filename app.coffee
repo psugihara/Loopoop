@@ -1,4 +1,6 @@
 express = require 'express'
+formidable = require 'formidable'
+sys = require 'sys'
 
 app = express.createServer()
 
@@ -24,6 +26,13 @@ app.get '/', (req, res) ->
   res.render 'index', title: 'idk'
 
 app.get '/:loop', (req, res) ->
-  res.render 'index', title: req.params.loop
+  res.render 'loop', title: req.params.loop
+
+app.post '/upload', (req, res) ->
+  form = new formidable.IncomingForm()
+  form.parse req, (err, fields, files) ->
+    res.write 'received upload:\n\n'
+    res.end sys.inspect({fields: fields, files: files})
+
 
 app.listen 3000
