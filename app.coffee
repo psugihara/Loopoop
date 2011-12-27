@@ -1,6 +1,7 @@
 express = require 'express'
 formidable = require 'formidable'
-sys = require 'sys'
+util = require 'util'
+s3 = require('aws2js').load 's3', accessKeyId, secretAccessKey
 
 app = express.createServer()
 
@@ -31,8 +32,10 @@ app.get '/:loop', (req, res) ->
 app.post '/upload', (req, res) ->
   form = new formidable.IncomingForm()
   form.parse req, (err, fields, files) ->
+    if files?[0]
+      
     res.write 'received upload:\n\n'
-    res.end sys.inspect({fields: fields, files: files})
+    res.end util.inspect({fields: fields, files: files})
 
 
 app.listen 3000

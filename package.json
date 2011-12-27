@@ -1,0 +1,11 @@
+{
+    "name": "Loopoop"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express"     : "latest"
+    , "jade"        : "latest"
+    , "formidable"  : "latest"
+    , "aws2js"      : "latest"
+  }
+}

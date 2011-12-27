@@ -23,7 +23,7 @@ var nodes = require('./nodes')
 //     var arr = [];
 //     for (var key in obj) {
 //       if (obj.hasOwnProperty(key)) {
-//         arr.push(obj);
+//         arr.push(key);
 //       }
 //     }
 //     return arr;
@@ -156,6 +156,39 @@ Compiler.prototype = {
     var name = node.constructor.name
       || node.constructor.toString().match(/function ([^(\s]+)()/)[1];
     return this['visit' + name](node);
+  },
+
+  /**
+   * Visit case `node`.
+   *
+   * @param {Literal} node
+   * @api public
+   */
+
+  visitCase: function(node){
+    var _ = this.withinCase;
+    this.withinCase = true;
+    this.buf.push('switch (' + node.expr + '){');
+    this.visit(node.block);
+    this.buf.push('}');
+    this.withinCase = _;
+  },
+  
+  /**
+   * Visit when `node`.
+   *
+   * @param {Literal} node
+   * @api public
+   */
+
+  visitWhen: function(node){
+    if ('default' == node.expr) {
+      this.buf.push('default:');
+    } else {
+      this.buf.push('case ' + node.expr + ':');
+    }
+    this.visit(node.block);
+    this.buf.push('  break;');
   },
 
   /**
@@ -339,8 +372,8 @@ Compiler.prototype = {
   
   visitBlockComment: function(comment){
     if (!comment.buffer) return;
-    if (0 == comment.val.indexOf('if')) {
-      this.buffer('<!--[' + comment.val + ']>');
+    if (0 == comment.val.trim().indexOf('if')) {
+      this.buffer('<!--[' + comment.val.trim() + ']>');
       this.visit(comment.block);
       this.buffer('<![endif]-->');
     } else {
