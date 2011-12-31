@@ -27,19 +27,38 @@ app.configure 'production', ->
 
 # ROUTES
 app.get '/', (req, res) ->
+  # Allow a raw url to be passed to the loopooper.
+  url = (req.param 'url') ? 'http://loopoop.s3.amazonaws.com/r2.wav'
+
   src = req.param 'src'
+  if src?
+    url = 'http://loopoop.s3.amazonaws.com/' + src
+
   options =
     title: src or 'Loopoop'
-    audioSource: src or 'http://loopoop.s3.amazonaws.com/r2.wav'
+    audioSource: url
   res.render 'index', options
+
+app.get '/naw', (req, res) ->
+  options =
+    title: 'Naw'
+    msg: req.param 'msg'
+  res.render 'naw', options
 
 app.post '/upload', (req, res, next) ->
   file = req.files.upload
+  if file.size > 4000000
+    res.redirect '/naw?msg=' + 'Your loop has to be under 4 megabytes. Sorry.'
+  if (file.type.search 'audio') == -1
+    res.redirect '/naw?msg=' + "I don't know that kind of audio file. Sorry."
+  console.log file
+
   name = file.name.replace /[ \t\n]+/g, ''
-  name = name.slice name.length-20, name.length
+  name = name.slice -20
+
   s3.putFile file.path, name, (err, s3res) ->
     if s3res
-      res.redirect '/?src=' + s3res.client._httpMessage.url
+      res.redirect '/?src=' + name
     else
       console.log 'error'
       console.log err
