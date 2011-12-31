@@ -5,7 +5,7 @@
   , "dependencies": {
       "express"     : "latest"
     , "jade"        : "latest"
-    , "formidable"  : "latest"
-    , "aws2js"      : "latest"
+    , "connect-form": "latest"
+    , "knox"        : "latest"
   }
 }

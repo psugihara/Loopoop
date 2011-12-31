@@ -1,4 +1,14 @@
+h1 LOOPOOP
+
+audio(controls='controls', loop='loop', autoplay='autoplay')
+  source(src=audioSource, type='audio/mp3')
+  | Your broswer is not supported :(!
+
 form(action='/upload', enctype='multipart/form-data', method='POST')
-  input(type='text', name='title')
   input(type='file', name='upload', multiple='multiple')
+  br
   input(type='submit', value='Upload')
+
+footer
+  | © 2011
+  a(href="http://campsh.com/peter") Peter Sugihara
