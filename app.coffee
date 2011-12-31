@@ -1,5 +1,6 @@
 express = require 'express'
 util = require 'util'
+fs = require 'fs'
 secrets = require './secrets.js'
 s3 = require('knox').createClient
   key: secrets.accessKeyId
@@ -48,10 +49,11 @@ app.get '/naw', (req, res) ->
 app.post '/upload', (req, res, next) ->
   file = req.files.upload
   if file.size > 4000000
-    res.redirect '/naw?msg=' + 'Your loop has to be under 4 megabytes. Sorry.'
+    msg = 'Your loop has to be under 4 megabytes. Sorry.'
+    return res.redirect '/naw?msg=' + msg
   if (file.type.search 'audio') == -1
-    res.redirect '/naw?msg=' + "I don't know that kind of audio file. Sorry."
-  console.log file
+    msg =  "I don't know that kind of audio file. Sorry."
+    return res.redirect '/naw?msg=' + msg
 
   name = file.name.replace /[ \t\n]+/g, ''
   name = name.slice -20
@@ -62,6 +64,7 @@ app.post '/upload', (req, res, next) ->
     else
       console.log 'error'
       console.log err
+    fs.unlink file.path # delete from local machine
 
 app.listen 3000, ->
   console.log 'Express server listening on port %d in %s mode'
