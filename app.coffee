@@ -29,7 +29,7 @@ app.configure 'production', ->
 # ROUTES
 app.get '/', (req, res) ->
   # Allow a raw url to be passed to the loopooper.
-  url = (req.param 'url') ? 'http://loopoop.s3.amazonaws.com/r2.wav'
+  url = (req.param 'url') ? 'http://loopoop.s3.amazonaws.com/default.mp3'
 
   src = req.param 'src'
   if src?
@@ -49,9 +49,11 @@ app.get '/naw', (req, res) ->
 app.post '/upload', (req, res, next) ->
   file = req.files.upload
   if file.size > 4000000
+    fs.unlink file.path # delete from local machine
     msg = 'Your loop has to be under 4 megabytes. Sorry.'
     return res.redirect '/naw?msg=' + msg
   if (file.type.search 'audio') == -1
+    fs.unlink file.path # delete from local machine
     msg =  "I don't know that kind of audio file. Sorry."
     return res.redirect '/naw?msg=' + msg
 
