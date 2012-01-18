@@ -1,6 +1,4 @@
 h1 LOOPOOP
-| Cut it, loop it, pass it.
-br
 
 audio(controls='controls', loop='loop', autoplay='autoplay')
   source(src=audioSource, type='audio/mp3')
@@ -10,6 +8,11 @@ form(action='/upload', enctype='multipart/form-data', method='POST')
   input(type='file', name='upload', multiple='multiple')
   br
   input(type='submit', value='Upload')
+
+- if (root)
+  br
+  br
+  iframe(src="http://player.vimeo.com/video/34587008?title=0&amp;byline=0&amp;portrait=0&amp;color=FF7700", width="450", height="281", frameborder="0", webkitAllowFullScreen, mozallowfullscreen, allowFullScreen)
 
 footer
   | © 2012

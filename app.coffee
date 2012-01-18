@@ -38,6 +38,7 @@ app.get '/', (req, res) ->
   options =
     title: src or 'Loopoop'
     audioSource: url
+    root: !(req.param('url')?)
   res.render 'index', options
 
 app.get '/naw', (req, res) ->
@@ -61,12 +62,12 @@ app.post '/upload', (req, res, next) ->
   name = name.slice -20
 
   s3.putFile file.path, name, (err, s3res) ->
+    fs.unlink file.path # delete from local machine
     if s3res
       res.redirect '/?src=' + name
     else
       console.log 'error'
       console.log err
-    fs.unlink file.path # delete from local machine
 
 app.listen 3000, ->
   console.log 'Express server listening on port %d in %s mode'
